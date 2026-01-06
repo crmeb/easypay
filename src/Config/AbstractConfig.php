@@ -3,6 +3,7 @@
 namespace Crmeb\Easypay;
 
 use Crmeb\Easypay\Exception\AbstractException;
+use Crmeb\Support\Str;
 
 /**
  * 抽象配置类
@@ -26,7 +27,7 @@ abstract class AbstractConfig
      */
     public function __set(string $name, $value)
     {
-        $name = $this->snake($name);
+        $name = Str::snake($name);
         if (isset($this->rule[$name])) {
             $this->$name = $value;
             return $this;
@@ -41,7 +42,7 @@ abstract class AbstractConfig
      */
     public function __get(string $name)
     {
-        $name = $this->snake($name);
+        $name = Str::snake($name);
         return $this->$name;
     }
 
@@ -56,7 +57,7 @@ abstract class AbstractConfig
     {
         $act = substr($name, 0, 3);
         $name = substr($name, 3);
-        $name = $this->snake($name);
+        $name = Str::snake($name);
         if ($act === "get") {
             return $this->$name;
         } else if ($act === "set") {
@@ -88,32 +89,5 @@ abstract class AbstractConfig
     public function toJson()
     {
         return json_encode($this->toArray());
-    }
-
-    /**
-     * 驼峰转下划线
-     * @param string $value
-     * @param string $delimiter
-     * @return string
-     */
-    public function snake(string $value, string $delimiter = '_'): string
-    {
-        if (!ctype_lower($value)) {
-            $value = preg_replace('/\s+/u', '', ucwords($value));
-
-            $value = $this->lower(preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $value));
-        }
-
-        return $value;
-    }
-
-    /**
-     * 转换小写
-     * @param string $value
-     * @return string
-     */
-    public function lower(string $value): string
-    {
-        return mb_strtolower($value, 'UTF-8');
     }
 }

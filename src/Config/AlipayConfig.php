@@ -65,7 +65,7 @@ class AlipayConfig extends CommonConfig
         'return_url',//可设置异步通知接收服务地址退款
         'encrypt_key',//可设置AES密钥，调用AES加解密相关接口时需要（可选）
         'cert_path',//支付宝证书路径(可选)
-        'root_certPath',//支付宝根证书路径(可选)
+        'root_cert_path',//支付宝根证书路径(可选)
         'merchant_cert_path',//商户证书路径(可选)
     ];
 

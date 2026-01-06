@@ -37,13 +37,8 @@ class Pay extends AbstractPay implements PayInterface
         // TODO: Implement close() method.
     }
 
-    public function verify($content, bool $refund)
+    public function verify($content)
     {
         // TODO: Implement verify() method.
-    }
-
-    public function success()
-    {
-        // TODO: Implement success() method.
     }
 }
