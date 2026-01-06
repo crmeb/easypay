@@ -3,3 +3,4 @@
 /composer.lock
 /logs/
 /index.php
+/.phpunit.result.cache

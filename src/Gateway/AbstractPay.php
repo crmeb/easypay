@@ -8,13 +8,14 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Psr\SimpleCache\CacheInterface;
 
 /**
  * AbstractPay
  * @package Crmeb\Gateway
  */
-class AbstractPay
+abstract class AbstractPay
 {
     /**
      * 配置
@@ -56,11 +57,22 @@ class AbstractPay
         $this->config = $config;
         $this->logger = $logger;
         $this->cache = $cache;
+
+        $this->init();
+
         $this->client = new Client([
             'base_uri'              => $this->baseUri,
             RequestOptions::TIMEOUT => $this->config->getHttpTimeout() ?: 5,
             RequestOptions::VERIFY  => $this->config->getHttpVerify() ?: false,
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function init()
+    {
+
     }
 
     /**
@@ -80,6 +92,38 @@ class AbstractPay
                 'options' => $options,
                 'result'  => $result
             ]);
+        }
+    }
+
+    /**
+     * 获取配置
+     * @return CommonConfig
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * 获取缓存
+     * @return CacheInterface
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * 日志
+     * @param string $message
+     * @param array $context
+     * @param string $level
+     * @return void
+     */
+    public function logger(string $message, array $context = [], string $level = LogLevel::DEBUG)
+    {
+        if ($this->config->getLogger()) {
+            $this->logger->log($level, $message, $context);
         }
     }
 
@@ -156,6 +200,22 @@ class AbstractPay
     public function querySendRequest(string $url, string $method, array $options = [], array $headers = [])
     {
         $options[RequestOptions::QUERY] = $options;
+        $options[RequestOptions::HEADERS] = $headers;
+        return $this->abstractSendRequest($url, $method, $options);
+    }
+
+    /**
+     * body请求
+     * @param string $url
+     * @param string $method
+     * @param array $options
+     * @param array $headers
+     * @return string
+     * @throws GuzzleException
+     */
+    public function bodySendRequest(string $url, string $method, array $options = [], array $headers = [])
+    {
+        $options[RequestOptions::BODY] = $options;
         $options[RequestOptions::HEADERS] = $headers;
         return $this->abstractSendRequest($url, $method, $options);
     }
