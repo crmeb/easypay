@@ -26,6 +26,24 @@ class CommonConfig extends AbstractConfig
 {
 
     /**
+     * 正式环境
+     * @var string
+     */
+    protected $baseUrl = '';
+
+    /**
+     * 测试环境
+     * @var string
+     */
+    protected $devBaseUrl = '';
+
+    /**
+     * 是否测试环境
+     * @var bool
+     */
+    public $isDev = false;
+
+    /**
      * @var array
      */
     protected $common = [
@@ -42,5 +60,32 @@ class CommonConfig extends AbstractConfig
     public function __construct()
     {
         $this->rule = array_merge($this->rule, $this->common);
+    }
+
+    /**
+     * 获取baseUrl
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * 获取baseUri
+     * @return string
+     */
+    public function getBaseUri()
+    {
+        return $this->isDev ? $this->devBaseUrl : $this->baseUrl;
+    }
+
+    /**
+     * 获取测试环境baseUrl
+     * @return string
+     */
+    public function getDevBaseUrl()
+    {
+        return $this->devBaseUrl;
     }
 }

@@ -150,14 +150,15 @@ abstract class AbstractPay
      * json请求
      * @param string $url
      * @param string $method
-     * @param array $options
+     * @param array $option
      * @param array $headers
-     * @return string
-     * @throws GuzzleException|PayException
+     * @return array
+     * @throws GuzzleException
+     * @throws PayException
      */
-    public function jsonSendRequest(string $url, string $method, array $options = [], array $headers = [])
+    public function jsonSendRequest(string $url, string $method, array $option = [], array $headers = [])
     {
-        $options[RequestOptions::JSON] = $options;
+        $options[RequestOptions::JSON] = $option;
         $options[RequestOptions::HEADERS] = $headers;
         $content = $this->abstractSendRequest($url, $method, $options);
 
@@ -176,14 +177,14 @@ abstract class AbstractPay
      * 表单请求
      * @param string $url
      * @param string $method
-     * @param array $options
+     * @param array $option
      * @param array $headers
-     * @return string
+     * @return string|array
      * @throws GuzzleException
      */
-    public function formSendRequest(string $url, string $method, array $options = [], array $headers = [])
+    public function formSendRequest(string $url, string $method, array $option = [], array $headers = [])
     {
-        $options[RequestOptions::FORM_PARAMS] = $options;
+        $options[RequestOptions::FORM_PARAMS] = $option;
         $options[RequestOptions::HEADERS] = $headers;
         return $this->abstractSendRequest($url, $method, $options);
     }
@@ -192,14 +193,14 @@ abstract class AbstractPay
      * GET请求
      * @param string $url
      * @param string $method
-     * @param array $options
+     * @param array $option
      * @param array $headers
-     * @return string
+     * @return string|array
      * @throws GuzzleException
      */
-    public function querySendRequest(string $url, string $method, array $options = [], array $headers = [])
+    public function querySendRequest(string $url, string $method, array $option = [], array $headers = [])
     {
-        $options[RequestOptions::QUERY] = $options;
+        $options[RequestOptions::QUERY] = $option;
         $options[RequestOptions::HEADERS] = $headers;
         return $this->abstractSendRequest($url, $method, $options);
     }
@@ -213,9 +214,9 @@ abstract class AbstractPay
      * @return string
      * @throws GuzzleException
      */
-    public function bodySendRequest(string $url, string $method, array $options = [], array $headers = [])
+    public function bodySendRequest(string $url, string $method, array $option = [], array $headers = [])
     {
-        $options[RequestOptions::BODY] = $options;
+        $options[RequestOptions::BODY] = $option;
         $options[RequestOptions::HEADERS] = $headers;
         return $this->abstractSendRequest($url, $method, $options);
     }

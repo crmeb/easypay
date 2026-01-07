@@ -40,13 +40,13 @@ class AlipayConfig extends CommonConfig
      * 正式环境
      * @var string
      */
-    public $baseUrl = 'https://openapi.alipay.com/gateway.do?charset=utf-8';
+    protected $baseUrl = 'https://openapi.alipay.com/gateway.do?charset=utf-8';
 
     /**
      * 测试环境
      * @var string
      */
-    public $devBaseUrl = 'https://openapi-sandbox.dl.alipaydev.com/gateway.do?charset=utf-8';
+    protected $devBaseUrl = 'https://openapi-sandbox.dl.alipaydev.com/gateway.do?charset=utf-8';
 
     /**
      * 是否测试环境
@@ -68,31 +68,4 @@ class AlipayConfig extends CommonConfig
         'root_cert_path',//支付宝根证书路径(可选)
         'merchant_cert_path',//商户证书路径(可选)
     ];
-
-    /**
-     * 获取baseUrl
-     * @return string
-     */
-    public function getBaseUrl()
-    {
-        return $this->baseUrl;
-    }
-
-    /**
-     * 获取baseUri
-     * @return string
-     */
-    public function getBaseUri()
-    {
-        return $this->isDev ? $this->devBaseUrl : $this->baseUrl;
-    }
-
-    /**
-     * 获取测试环境baseUrl
-     * @return string
-     */
-    public function getDevBaseUrl()
-    {
-        return $this->devBaseUrl;
-    }
 }

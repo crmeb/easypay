@@ -1,20 +1,37 @@
 <?php
 
-namespace Crmeb\Gateway\Union;
+namespace Crmeb\Gateway\UnionMer;
 
 
 use Crmeb\Gateway\AbstractPay;
 use Crmeb\Interface\PayInterface;
 
 /**
- * 银联支付
+ * 银联商务支付
  */
 class Pay extends AbstractPay implements PayInterface
 {
 
+    /**
+     *  支持
+     * @var Support
+     */
+    protected $support;
+
+    /**
+     * 初始化
+     * @return void
+     */
+    public function init()
+    {
+        $this->support = new Support($this);
+
+        $this->baseUri = $this->config->getBaseUri();
+    }
+
     public function pay($gateway, array $params = [])
     {
-        // TODO: Implement pay() method.
+        
     }
 
     public function find($order, string $type)

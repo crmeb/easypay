@@ -6,7 +6,8 @@ use Crmeb\Easypay\AlipayConfig;
 use Crmeb\Easypay\Exception\InvalidConfigException;
 use Crmeb\Easypay\Exception\InvalidSignException;
 use Crmeb\Easypay\Exception\PayException;
-use Crmeb\Enum\PayGatewayEnum;
+use Crmeb\Enum\PayAlipayEnum;
+use Crmeb\Enum\PayGatewayTypeEnum;
 use Crmeb\Gateway\AbstractPay;
 use Crmeb\Interface\PayInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -67,12 +68,12 @@ class Pay extends AbstractPay implements PayInterface
      * @return mixed
      * @throws PayException
      */
-    public function pay(string $gateway = PayGatewayEnum::JSAPI_PAY, array $params = [])
+    public function pay(string $gateway = PayGatewayTypeEnum::JSAPI_PAY, array $params = [])
     {
-        if (!in_array($gateway, array_keys(PayGatewayEnum::GATEWAY_MAP))) {
+        if (!in_array($gateway, array_keys(PayAlipayEnum::GATEWAY_MAP))) {
             throw  new PayException('不支持的支付接口');
         }
-        $this->payload['method'] = PayGatewayEnum::GATEWAY_MAP[$gateway];
+        $this->payload['method'] = PayAlipayEnum::GATEWAY_MAP[$gateway];
 
         $this->payload['return_url'] = $params['return_url'] ?? $this->payload['return_url'];
         $this->payload['notify_url'] = $params['notify_url'] ?? $this->payload['notify_url'];
@@ -269,9 +270,9 @@ class Pay extends AbstractPay implements PayInterface
         }
 
         if ('refund' === $type) {
-            $this->payload['method'] = PayGatewayEnum::REFUND_QUERY_URL;
+            $this->payload['method'] = PayAlipayEnum::REFUND_QUERY_URL;
         } else {
-            $this->payload['method'] = PayGatewayEnum::ORDER_URL;
+            $this->payload['method'] = PayAlipayEnum::ORDER_URL;
         }
 
         $this->payload['biz_content'] = json_encode(is_array($order) ? $order : ['out_trade_no' => $order]);
@@ -290,7 +291,7 @@ class Pay extends AbstractPay implements PayInterface
      */
     public function refund(array $order)
     {
-        $this->payload['method'] = PayGatewayEnum::REFUND_URL;
+        $this->payload['method'] = PayAlipayEnum::REFUND_URL;
         $this->payload['biz_content'] = json_encode($order);
 
         return $this->send($this->payload);
