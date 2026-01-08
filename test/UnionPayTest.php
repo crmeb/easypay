@@ -8,11 +8,8 @@ class UnionPayTest extends TestCase
 
     public function testRequest()
     {
-        try {
+       $host= 'https://openapi.unionpay.com/';
 
-            throw new PayResponseException('error', 0, null, ['code' => 500, 'message' => '错误']);
-        } catch (PayResponseException $e) {
-            var_dump($e->getResponse());
-        }
+       var_dump(parse_url($host,1));
     }
 }

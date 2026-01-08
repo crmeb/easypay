@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Support;
+namespace Crmeb\Easypay\Support;
 
 /**
  * Class Tools

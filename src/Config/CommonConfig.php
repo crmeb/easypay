@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Easypay;
+namespace Crmeb\Easypay\Config;
 
 /**
  * 公共配置
@@ -47,19 +47,20 @@ class CommonConfig extends AbstractConfig
      * @var array
      */
     protected $common = [
-        'logger',
-        'http_timeout',
-        'http_ssl',
-        'http_proxy',
-        'http_verify',
+        'logger'       => true,
+        'http_timeout' => 10,
+        'http_ssl'     => false,
+        'http_proxy'   => '',
+        'http_verify'  => false,
     ];
 
     /**
      * CommonConfig constructor.
      */
-    public function __construct()
+    public function __construct(array $config = [])
     {
         $this->rule = array_merge($this->rule, $this->common);
+        parent::__construct($config);
     }
 
     /**

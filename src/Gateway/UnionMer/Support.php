@@ -1,13 +1,13 @@
 <?php
 
-namespace Crmeb\Gateway\UnionMer;
+namespace Crmeb\Easypay\Gateway\UnionMer;
 
 use Crmeb\Easypay\Exception\PayException;
 use Crmeb\Easypay\Exception\PayResponseException;
-use Crmeb\Easypay\UnionMerConfig;
-use Crmeb\Enum\PayUnionMerEnum;
-use Crmeb\Gateway\AbstractPay;
-use Crmeb\Support\Tools;
+use Crmeb\Easypay\Config\UnionMerConfig;
+use Crmeb\Easypay\Enum\PayUnionMerEnum;
+use Crmeb\Easypay\Gateway\AbstractPay;
+use Crmeb\Easypay\Support\Tools;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\SimpleCache\InvalidArgumentException;
 
@@ -51,14 +51,14 @@ class Support
         $timestamp = date("YmdHis", time());
         $nonce = Tools::createUuid();
         $signatureAttr = [
-            $this->config->getAppid(),
+            $this->config->getAppId(),
             $timestamp,
             $nonce,
             $this->config->getAppKey(),
         ];
 
         $body = [
-            'appId'     => $this->config->getAppid(),
+            'appId'     => $this->config->getAppId(),
             'appKey'    => $this->config->getAppKey(),
             'timestamp' => $timestamp,
             'nonce'     => $nonce,
@@ -67,10 +67,10 @@ class Support
 
         $response = $this->abstractPay->jsonSendRequest(PayUnionMerEnum::TOKEN_API_URL, 'post', $body);
 
-        if ($response['errCode'] == 'SUCCESS' && isset($response['accessToken'])) {
+        if ($response['errCode'] == '0000' && isset($response['accessToken'])) {
             return $response['accessToken'];
         } else {
-            throw new PayException('获取token失败：'($response['errMsg'] ?? ''));
+            throw new PayResponseException('获取token失败：' . ($response['errMsg'] ?? ''), 0, null, $response);
         }
     }
 
@@ -82,7 +82,7 @@ class Support
      */
     protected function getCacheToken()
     {
-        $key = $this->config->getAppid() . '_UNIONMER_TOKEN';
+        $key = $this->config->getAppId() . '_UNIONMER_TOKEN';
         if ($this->abstractPay->getCache()->has($key)) {
             $accessToken = $this->abstractPay->getCache()->get($key);
         } else {
@@ -116,10 +116,10 @@ class Support
 
         $response = $this->abstractPay->jsonSendRequest($url, 'post', $data, $headers);
 
-        if ($response['errCode'] == 'SUCCESS') {
+        if ($response['errCode'] == '0000') {
             return $response;
         } else {
-            throw new PayResponseException('请求失败：'($response['errMsg'] ?? ''), 0, null, $response);
+            throw new PayResponseException('请求失败：' . ($response['errMsg'] ?? ''), 0, null, $response);
         }
     }
 }

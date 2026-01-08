@@ -1,15 +1,15 @@
 <?php
 
-namespace Crmeb\Gateway\Alipay;
+namespace Crmeb\Easypay\Gateway\Alipay;
 
-use Crmeb\Easypay\AlipayConfig;
+use Crmeb\Easypay\Config\AlipayConfig;
 use Crmeb\Easypay\Exception\InvalidConfigException;
 use Crmeb\Easypay\Exception\InvalidSignException;
 use Crmeb\Easypay\Exception\PayException;
-use Crmeb\Enum\PayAlipayEnum;
-use Crmeb\Enum\PayGatewayTypeEnum;
-use Crmeb\Gateway\AbstractPay;
-use Crmeb\Interface\PayInterface;
+use Crmeb\Easypay\Enum\PayAlipayEnum;
+use Crmeb\Easypay\Enum\PayGatewayTypeEnum;
+use Crmeb\Easypay\Gateway\AbstractPay;
+use Crmeb\Easypay\Interface\PayInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 

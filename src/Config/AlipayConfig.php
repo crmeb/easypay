@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Easypay;
+namespace Crmeb\Easypay\Config;
 
 /**
  * 支付宝配置
@@ -58,14 +58,14 @@ class AlipayConfig extends CommonConfig
      * @var array
      */
     protected $rule = [
-        'appid',
-        'private_key',//应用私钥
-        'public_key',//支付宝公钥
-        'notify_url',//可设置异步通知接收服务地址支付
-        'return_url',//可设置异步通知接收服务地址退款
-        'encrypt_key',//可设置AES密钥，调用AES加解密相关接口时需要（可选）
-        'cert_path',//支付宝证书路径(可选)
-        'root_cert_path',//支付宝根证书路径(可选)
-        'merchant_cert_path',//商户证书路径(可选)
+        'appid'              => '',
+        'private_key'        => '',//应用私钥
+        'public_key'         => '',//支付宝公钥
+        'notify_url'         => '',//可设置异步通知接收服务地址支付
+        'return_url'         => '',//可设置异步通知接收服务地址退款
+        'encrypt_key'        => '',//可设置AES密钥，调用AES加解密相关接口时需要（可选）
+        'cert_path'          => '',//支付宝证书路径(可选)
+        'root_cert_path'     => '',//支付宝根证书路径(可选)
+        'merchant_cert_path' => '',//商户证书路径(可选)
     ];
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Enum;
+namespace Crmeb\Easypay\Enum;
 
 class PayGatewayTypeEnum
 {
@@ -15,6 +15,9 @@ class PayGatewayTypeEnum
 
     // 公众号支付
     const JSAPI_PAY = 'jsapi';
+
+    // 小程序支付
+    const MINI_PAY = 'mini';
 
     // 单笔转账接口
     const TRANSFER_PAY = 'transfer';

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Enum;
+namespace Crmeb\Easypay\Enum;
 
 /**
  * 支付网关枚举

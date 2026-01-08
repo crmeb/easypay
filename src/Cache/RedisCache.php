@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Easypay;
+namespace Crmeb\Easypay\Cache;
 
 use Crmeb\Easypay\Exception\PayException;
 use Psr\SimpleCache\CacheInterface;

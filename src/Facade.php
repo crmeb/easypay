@@ -2,14 +2,17 @@
 
 namespace Crmeb\Easypay;
 
-use Crmeb\Gateway\UnionMerService;
+use Crmeb\Easypay\Config\AbstractConfig;
+use Crmeb\Easypay\Config\UnionMerConfig;
+use Crmeb\Easypay\Gateway\UnionMerService;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
+use Crmeb\Easypay\Config\CommonConfig;
 
 /**
  * Facade
  * @package Crmeb\Easypay
- * @method UnionPay union(AbstractConfig $config = null)
+ * @method UnionMerService unionmer(UnionMerConfig $config = null)
  */
 class Facade
 {
@@ -40,7 +43,7 @@ class Facade
 
     /**
      * 配置
-     * @var AbstractConfig
+     * @var CommonConfig
      */
     private $config;
 

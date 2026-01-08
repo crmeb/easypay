@@ -27,7 +27,7 @@ class FileLogger implements LoggerInterface
      * 单个日志文件最大大小（字节）
      * @var int
      */
-    private $maxFileSize = 10 * 1024 * 1024; // 10MB = 10*1024*1024字节
+    private $maxFileSize = 2 * 1024 * 1024; // 10MB = 10*1024*1024字节
 
     /**
      * 日志级别映射（对应PSR-3标准级别）
@@ -322,10 +322,13 @@ class FileLogger implements LoggerInterface
             if (filesize($logFile) >= $this->maxFileSize) {
                 // 重命名实现切割
                 if (rename($logFile, $rotatedFile)) {
-                    // 切割后清空原文件（兼容部分系统rename后文件句柄异常问题）
-                    ftruncate($handle, 0);
-                    // 写入切割标记日志
-                    fwrite($handle, "日志已切割至: {$rotatedFileName}" . PHP_EOL);
+                    // 重新打开原文件（自动创建空文件）
+                    $handle = fopen($logFile, 'a+');
+                    if ($handle) {
+                        // 写入切割标记日志
+                        fwrite($handle, '');
+                        fclose($handle);
+                    }
                 } else {
                     trigger_error("日志切割失败：无法重命名 {$logFile} 到 {$rotatedFile}", E_USER_WARNING);
                 }

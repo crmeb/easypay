@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Easypay;
+namespace Crmeb\Easypay\Config;
 
 /**
  * RedisConfig
@@ -35,12 +35,15 @@ class RedisConfig extends AbstractConfig
      * @var string[]
      */
     protected $rule = [
-        'host',
-        'port',
-        'password',
-        'select',
-        'timeout',
-        'prefix',
-        'serialize'
+        'host'      => '127.0.0.1',
+        'port'      => '6379',
+        'password'  => '',
+        'select'    => 1,
+        'timeout'   => 60,
+        'prefix'    => 'crmeb_easypay',
+        'serialize' => [
+            'serialize',
+            'unserialize'
+        ]
     ];
 }

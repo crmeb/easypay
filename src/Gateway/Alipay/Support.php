@@ -1,13 +1,13 @@
 <?php
 
-namespace Crmeb\Gateway\Alipay;
+namespace Crmeb\Easypay\Gateway\Alipay;
 
-use Crmeb\Easypay\AlipayConfig;
+use Crmeb\Easypay\Config\AlipayConfig;
 use Crmeb\Easypay\Exception\InvalidConfigException;
 use Crmeb\Easypay\Exception\InvalidSignException;
 use Crmeb\Easypay\Exception\PayException;
-use Crmeb\Gateway\AbstractPay;
-use Crmeb\Support\Str;
+use Crmeb\Easypay\Gateway\AbstractPay;
+use Crmeb\Easypay\Support\Str;
 
 class Support
 {

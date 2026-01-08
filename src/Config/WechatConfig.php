@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Easypay;
+namespace Crmeb\Easypay\Config;
 
 /**
  * 微信支付配置
@@ -41,14 +41,14 @@ class WechatConfig extends CommonConfig
      * @var string[]
      */
     protected $rule = [
-        'appid',
-        'sub_mch_id',
-        'mch_id',
-        'sp_appid',
-        'key',
-        'cert_path',
-        'key_path',
-        'miniprogram_mchid',
-        'notify_url',
+        'appid'             => '',
+        'sub_mch_id'        => '',
+        'mch_id'            => '',
+        'sp_appid'          => '',
+        'key'               => '',
+        'cert_path'         => '',
+        'key_path'          => '',
+        'miniprogram_mchid' => '',
+        'notify_url'        => '',
     ];
 }

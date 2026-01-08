@@ -1,9 +1,9 @@
 <?php
 
-namespace Crmeb\Easypay;
+namespace Crmeb\Easypay\Config;
 
 use Crmeb\Easypay\Exception\AbstractException;
-use Crmeb\Support\Str;
+use Crmeb\Easypay\Support\Str;
 
 /**
  * 抽象配置类
@@ -17,6 +17,22 @@ abstract class AbstractConfig
      * @var array
      */
     protected $rule = [];
+
+    /**
+     * 构造函数
+     * @param array $config
+     */
+    public function __construct(array $config = [])
+    {
+        if ($config) {
+            foreach ($config as $key => $value) {
+                $key = Str::snake($key);
+                if (isset($this->rule[$key])) {
+                    $this->$key = $value;
+                }
+            }
+        }
+    }
 
     /**
      * 设置属性
@@ -59,7 +75,7 @@ abstract class AbstractConfig
         $name = substr($name, 3);
         $name = Str::snake($name);
         if ($act === "get") {
-            return $this->$name;
+            return !property_exists($this, $name) ? $this->rule[$name] : $this->$name;
         } else if ($act === "set") {
             $this->$name = $arguments[0];
             return $this;
@@ -75,8 +91,8 @@ abstract class AbstractConfig
     public function toArray()
     {
         $data = [];
-        foreach ($this->rule as $value) {
-            $data[$value] = $this->$value;
+        foreach ($this->rule as $key => $value) {
+            $data[$key] = !property_exists($this, $key) || is_null($this->$key) ? $value : $this->$key;
         }
 
         return $data;

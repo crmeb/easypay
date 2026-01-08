@@ -1,8 +1,8 @@
 <?php
 
-namespace Crmeb\Gateway;
+namespace Crmeb\Easypay\Gateway;
 
-use Crmeb\Easypay\CommonConfig;
+use Crmeb\Easypay\Config\CommonConfig;
 use Crmeb\Easypay\Exception\PayException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -86,7 +86,8 @@ abstract class AbstractPay
     protected function httpRequestLog(string $url, string $method, array $options = [], $result = null)
     {
         if ($this->config->getLogger()) {
-            $this->logger->info('easypay http request {url}/{method} options: {options} result: {result}', [
+            $this->logger->info('easypay http request {baseUrl}{url}/{method} options: {options} result: {result}', [
+                'baseUrl' => $this->baseUri,
                 'url'     => $url,
                 'method'  => $method,
                 'options' => $options,
@@ -159,7 +160,7 @@ abstract class AbstractPay
     public function jsonSendRequest(string $url, string $method, array $option = [], array $headers = [])
     {
         $options[RequestOptions::JSON] = $option;
-        $options[RequestOptions::HEADERS] = $headers;
+        $options[RequestOptions::HEADERS] = array_merge($headers, ['Content-Type' => 'application/json']);
         $content = $this->abstractSendRequest($url, $method, $options);
 
         if ($content === null) {
@@ -185,7 +186,7 @@ abstract class AbstractPay
     public function formSendRequest(string $url, string $method, array $option = [], array $headers = [])
     {
         $options[RequestOptions::FORM_PARAMS] = $option;
-        $options[RequestOptions::HEADERS] = $headers;
+        $options[RequestOptions::HEADERS] = array_merge($headers, ['Content-Type' => 'application/x-www-form-urlencoded']);
         return $this->abstractSendRequest($url, $method, $options);
     }
 
