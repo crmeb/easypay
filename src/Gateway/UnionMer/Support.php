@@ -105,6 +105,10 @@ class Support
      */
     public function jsonSendRequest(string $url, array $data = [], bool $isToken = true)
     {
+        $data = array_filter($data, function ($value) {
+            return '' !== $value && !is_null($value);
+        });
+
         $headers = [];
 
         if ($isToken) {
@@ -131,6 +135,10 @@ class Support
      */
     public function querySendRequest(string $url, array $query)
     {
+        $query = array_filter($query, function ($value) {
+            return '' !== $value && !is_null($value);
+        });
+
         $jsonQuery = json_encode($query);
         $timestamp = date("YmdHis");
         $nonce = Tools::createUuid();
@@ -153,6 +161,6 @@ class Support
             'signature'     => base64_encode($hmacSHA256)
         ];
 
-        return $url . '?' . http_build_query($urlParamsAttr);
+        return $this->config->getBaseUri() . $url . '?' . http_build_query($urlParamsAttr);
     }
 }

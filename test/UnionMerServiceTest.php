@@ -25,18 +25,14 @@ class UnionMerServiceTest extends TestCase
         $facade->registerLogger(new \Crmeb\Easypay\Log\FileLogger(dirname(__DIR__) . '/logs'));
 
         $config = new UnionMerConfig([
-            'appId'  => '',
-            'appKey' => '',
-            'mchId'  => '',
-            'tid'    => ''
+            'appId'  => '8a81c1bd831e4c9601862f7e03253998',
+            'appKey' => '259D48AE69D272289E2AC0E0DF72F4F8',
+            'mchId'  => '898610100008164',
+            'tid'    => 'KPJAGCEL'
         ]);
 
-        try {
-            $res = $facade->unionmer($config)->scan('uni45457845122244545664448', '0.01', 'unionmer', '测试商品支付');
+        $res = $facade->unionmer($config)->h5Pay('uni45457845122244545664446', '0.01', 'unionmer', '测试商品支付');
 
-            var_dump($res);
-        } catch (\Crmeb\Easypay\Exception\PayResponseException $e) {
-            var_dump($e->getResponse());
-        }
+        var_dump($res);
     }
 }

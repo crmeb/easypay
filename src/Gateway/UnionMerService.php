@@ -76,8 +76,41 @@ class UnionMerService
         return $this->payGateway->pay(PayGatewayTypeEnum::NATIVE_PAY, $params);
     }
 
+    /**
+     * H5支付
+     * @param string $orderId
+     * @param string $amount
+     * @param string $subject
+     * @param string $bodyDesc
+     * @param array $goods
+     * @param array $subOrders
+     * @param string $unionType
+     * @return array|string
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
+     * @throws PayException
+     * @throws PayResponseException
+     */
     public function h5Pay(string $orderId, string $amount, string $subject, string $bodyDesc = '', array $goods = [], array $subOrders = [], string $unionType = PayUnionMerEnum::UNION_TYPE_WECHAT)
     {
+        $params = [
+            'union_type'  => $unionType,
+            'instMid'     => 'H5DEFAULT',
+            'msgId'       => Tools::guid(),
+            'srcReserve'  => $subject,
+            'billNo'      => $orderId,
+            'totalAmount' => bcmul($amount, 100, 0),
+            'billDesc'    => $bodyDesc,
+            'billDate'    => date('Y-m-d'),
+        ];
 
+        if ($goods) {
+            $params['goods'] = $goods;
+        }
+        if ($subOrders) {
+            $params['subOrders'] = $subOrders;
+        }
+
+        return $this->payGateway->pay(PayGatewayTypeEnum::WAP_PAY, $params);
     }
 }
