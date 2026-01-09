@@ -30,7 +30,7 @@ class Tools
      */
     public static function guid()
     {
-        mt_srand((double)microtime() * 10000);
+        mt_srand((int)microtime() * 10000);
         $charid = strtoupper(md5(uniqid(rand(), true)));
         $hyphen = chr(45);// "-"
         $uuid = chr(123)// "{"

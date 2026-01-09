@@ -6,7 +6,7 @@ use Crmeb\Easypay\Exception\PayException;
 use Psr\SimpleCache\CacheInterface;
 
 /**
- * 缓存类
+ * redis缓存类
  * Cache
  * @package Crmeb\Easypay
  */

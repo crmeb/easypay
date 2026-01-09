@@ -10,6 +10,11 @@ use Crmeb\Easypay\Support\Tools;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
+/**
+ * 统一收单下单并支付
+ * Class UnionMerService
+ * @package Crmeb\Easypay\Gateway
+ */
 class UnionMerService
 {
 
