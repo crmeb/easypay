@@ -58,4 +58,25 @@ class Tools
         $uuid .= substr($str, 20, 12);
         return $prefix . $uuid;
     }
+
+    /**
+     * hmacSHA256
+     * @param string $content
+     * @param string $key
+     * @return string
+     */
+    public static function hmacSHA256(string $content, string $key)
+    {
+        return hash_hmac('sha256', $content, $key);
+    }
+
+    /**
+     * sha256Hex
+     * @param string $content
+     * @return string
+     */
+    public static function sha256Hex(string $content)
+    {
+        return hash('sha256', $content);
+    }
 }

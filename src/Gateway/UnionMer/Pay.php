@@ -3,6 +3,7 @@
 namespace Crmeb\Easypay\Gateway\UnionMer;
 
 
+use Crmeb\Easypay\Enum\PayGatewayTypeEnum;
 use Crmeb\Easypay\Exception\PayException;
 use Crmeb\Easypay\Config\UnionMerConfig;
 use Crmeb\Easypay\Enum\PayUnionMerEnum;
@@ -40,11 +41,10 @@ class Pay extends AbstractPay implements PayInterface
         /** @var UnionMerConfig $config */
         $config = $this->config;
         $this->payload = [
-            'requestTimestamp' => date('Y-m-d H:i:s'),
-            'mid'              => $config->getMchId(),
-            'tid'              => $config->getTid(),
-            'notifyUrl'        => $config->getNotifyUrl(),
-            'returnUrl'        => $config->getReturnUrl(),
+            'mid'       => $config->getMchId(),
+            'tid'       => $config->getTid(),
+            'notifyUrl' => $config->getNotifyUrl(),
+            'returnUrl' => $config->getReturnUrl(),
         ];
     }
 
@@ -52,7 +52,7 @@ class Pay extends AbstractPay implements PayInterface
      *  支付
      * @param $gateway
      * @param array $params
-     * @return array|mixed
+     * @return array|string
      * @throws PayException
      * @throws \Crmeb\Easypay\Exception\PayResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -76,19 +76,25 @@ class Pay extends AbstractPay implements PayInterface
             throw  new PayException(sprintf('不支持的支付接口:gateway %s unionType %s', $gateway, $unionType));
         }
 
-        foreach ($params as $key => $value) {
-            if (is_array($value)) {
-                $value = json_encode($value, JSON_UNESCAPED_UNICODE);
-            }
-            $this->payload[$key] = $value;
-        }
-
         $this->payload['notifyUrl'] = $params['return_url'] ?? $this->payload['notifyUrl'];
         $this->payload['notifyUrl'] = $params['notify_url'] ?? $this->payload['notifyUrl'];
+        $this->payload['requestTimestamp'] = date('Y-m-d H:i:s');
 
         unset($params['return_url'], $params['notify_url']);
 
-        return $this->support->jsonSendRequest($url, $this->payload);
+        // H5 支付 和 公众号支付
+        if (in_array($gateway, [PayGatewayTypeEnum::WAP_PAY, PayGatewayTypeEnum::JSAPI_PAY])) {
+            return $this->support->querySendRequest($url, array_merge($this->payload, $params));
+        } else {
+            foreach ($params as $key => $value) {
+                if ($value && is_array($value)) {
+                    $value = json_encode($value, JSON_UNESCAPED_UNICODE);
+                }
+                $this->payload[$key] = $value;
+            }
+
+            return $this->support->jsonSendRequest($url, $this->payload);
+        }
     }
 
     public function find($order, string $type)

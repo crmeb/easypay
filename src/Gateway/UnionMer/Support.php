@@ -116,10 +116,43 @@ class Support
 
         $response = $this->abstractPay->jsonSendRequest($url, 'post', $data, $headers);
 
-        if ($response['errCode'] == '0000') {
+        if ($response['errCode'] == 'SUCCESS') {
             return $response;
         } else {
             throw new PayResponseException('请求失败：' . ($response['errMsg'] ?? ''), 0, null, $response);
         }
+    }
+
+    /**
+     * 组合查询参数返回请求地址
+     * @param string $url
+     * @param array $query
+     * @return string
+     */
+    public function querySendRequest(string $url, array $query)
+    {
+        $jsonQuery = json_encode($query);
+        $timestamp = date("YmdHis");
+        $nonce = Tools::createUuid();
+
+        $signature = [
+            $this->config->getAppId(),
+            $timestamp,
+            $nonce,
+            Tools::sha256Hex($jsonQuery)
+        ];
+
+        $hmacSHA256 = Tools::hmacSHA256(implode('', $signature), $this->config->getAppKey());
+
+        $urlParamsAttr = [
+            'authorization' => 'OPEN-FORM-PARAM',
+            'appId'         => $this->config->getAppId(),
+            'timestamp'     => $timestamp,
+            'nonce'         => $nonce,
+            'content'       => urlencode($jsonQuery),
+            'signature'     => base64_encode($hmacSHA256)
+        ];
+
+        return $url . '?' . http_build_query($urlParamsAttr);
     }
 }

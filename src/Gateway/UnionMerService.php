@@ -5,10 +5,14 @@ namespace Crmeb\Easypay\Gateway;
 use Crmeb\Easypay\Config\UnionMerConfig;
 use Crmeb\Easypay\Enum\PayGatewayTypeEnum;
 use Crmeb\Easypay\Enum\PayUnionMerEnum;
+use Crmeb\Easypay\Exception\PayException;
+use Crmeb\Easypay\Exception\PayResponseException;
 use Crmeb\Easypay\Gateway\UnionMer\Pay;
 use Crmeb\Easypay\Support\Tools;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * 统一收单下单并支付
@@ -42,18 +46,19 @@ class UnionMerService
 
     /**
      * 扫码支付
-     * @param string $orderId
-     * @param string $amount
-     * @param string $subject
-     * @param string $bodyDesc
-     * @param array $goods
-     * @return array|mixed
-     * @throws \Crmeb\Easypay\Exception\PayException
-     * @throws \Crmeb\Easypay\Exception\PayResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @param string $orderId 订单号
+     * @param string $amount 支付金额
+     * @param string $subject 标记原样返回
+     * @param string $bodyDesc 商品描述
+     * @param array $goods 商品列表
+     * @param array $subOrders 子订单列表
+     * @return array
+     * @throws PayException
+     * @throws PayResponseException
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
      */
-    public function scan(string $orderId, string $amount, string $subject, string $bodyDesc = '', array $goods = [])
+    public function scan(string $orderId, string $amount, string $subject, string $bodyDesc = '', array $goods = [], array $subOrders = [])
     {
         $params = [
             'union_type'  => PayUnionMerEnum::UNION_TYPE_WECHAT,
@@ -64,9 +69,15 @@ class UnionMerService
             'goods'       => $goods,
             'totalAmount' => bcmul($amount, 100, 0),
             'billDesc'    => $bodyDesc,
-            'billDate'    => date('Y-m-d')
+            'billDate'    => date('Y-m-d'),
+            'subOrders'   => $subOrders,
         ];
 
         return $this->payGateway->pay(PayGatewayTypeEnum::NATIVE_PAY, $params);
+    }
+
+    public function h5Pay(string $orderId, string $amount, string $subject, string $bodyDesc = '', array $goods = [], array $subOrders = [], string $unionType = PayUnionMerEnum::UNION_TYPE_WECHAT)
+    {
+
     }
 }
