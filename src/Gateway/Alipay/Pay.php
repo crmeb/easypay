@@ -122,8 +122,6 @@ class Pay extends AbstractPay implements PayInterface
     }
 
     /**
-     *
-     *
      *  jsapi创建支付
      * @param array $payload
      * @return mixed
