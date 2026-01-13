@@ -1,5 +1,8 @@
 {
     "name": "crmeb/easypay",
+    "description": "easypay 包含银联商务、支付宝、微信等支付",
+    "type": "library",
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "Crmeb\\Easypay\\": "src/"
