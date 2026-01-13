@@ -125,8 +125,10 @@ class Pay extends AbstractPay implements PayInterface
      *  jsapi创建支付
      * @param array $payload
      * @return mixed
-     * @throws PayException
      * @throws GuzzleException
+     * @throws InvalidConfigException
+     * @throws InvalidSignException
+     * @throws PayException
      */
     protected function jsapiCreatePay(array $payload)
     {
