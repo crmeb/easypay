@@ -1,6 +1,6 @@
 <?php
 
-namespace Crmeb\Easypay\Interface;
+namespace Crmeb\Easypay\Interfaces;
 
 interface PayInterface
 {

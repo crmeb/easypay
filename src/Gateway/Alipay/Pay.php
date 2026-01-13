@@ -9,7 +9,7 @@ use Crmeb\Easypay\Exception\PayException;
 use Crmeb\Easypay\Enum\PayAlipayEnum;
 use Crmeb\Easypay\Enum\PayGatewayTypeEnum;
 use Crmeb\Easypay\Gateway\AbstractPay;
-use Crmeb\Easypay\Interface\PayInterface;
+use Crmeb\Easypay\Interfaces\PayInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 

@@ -8,7 +8,7 @@ use Crmeb\Easypay\Exception\PayException;
 use Crmeb\Easypay\Config\UnionMerConfig;
 use Crmeb\Easypay\Enum\PayUnionMerEnum;
 use Crmeb\Easypay\Gateway\AbstractPay;
-use Crmeb\Easypay\Interface\PayInterface;
+use Crmeb\Easypay\Interfaces\PayInterface;
 
 /**
  * 银联商务支付
