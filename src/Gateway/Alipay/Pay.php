@@ -325,7 +325,7 @@ class Pay extends AbstractPay implements PayInterface
     }
 
     /**
-     *  验证回调数据
+     * 验证回调数据
      * @param array $content
      * @return array
      * @throws InvalidConfigException
