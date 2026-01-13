@@ -145,7 +145,6 @@ class Pay extends AbstractPay implements PayInterface
      *  app创建支付
      * @param array $payload
      * @return array
-     * @throws GuzzleException
      */
     protected function appCreatePay(array $payload)
     {
