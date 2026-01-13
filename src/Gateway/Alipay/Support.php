@@ -6,9 +6,14 @@ use Crmeb\Easypay\Config\AlipayConfig;
 use Crmeb\Easypay\Exception\InvalidConfigException;
 use Crmeb\Easypay\Exception\InvalidSignException;
 use Crmeb\Easypay\Exception\PayException;
+use Crmeb\Easypay\Exception\PayResponseException;
 use Crmeb\Easypay\Gateway\AbstractPay;
 use Crmeb\Easypay\Support\Str;
 
+/**
+ * Alipay Support.
+ *
+ */
 class Support
 {
 
@@ -62,7 +67,7 @@ class Support
 
         $sign = base64_encode($sign);
 
-        $this->abstractPay->logger('Alipay Generate Sign {params} {sign}', [$params, $sign]);
+        $this->abstractPay->logger('Alipay Generate Sign {0} {1}', [$params, $sign]);
 
         if (is_resource($privateKey)) {
             openssl_free_key($privateKey);
@@ -232,7 +237,7 @@ class Support
         $method = str_replace('.', '_', $data['method']) . '_response';
 
         if (!isset($result['sign']) || '10000' != $result[$method]['code']) {
-            throw new PayException('Get Alipay API Error:' . $result[$method]['msg'] . (isset($result[$method]['sub_code']) ? (' - ' . $result[$method]['sub_code']) : ''), $result);
+            throw new PayResponseException('Get Alipay API Error:' . $result[$method]['msg'] . (isset($result[$method]['sub_code']) ? (' - ' . $result[$method]['sub_code']) : ''),0,null, $result);
         }
 
         if ($this->verifySign($result[$method], true, $result['sign'])) {
