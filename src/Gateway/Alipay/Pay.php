@@ -300,6 +300,15 @@ class Pay extends AbstractPay implements PayInterface
         return $this->send($this->payload);
     }
 
+    /**
+     *  取消
+     * @param $order
+     * @return array
+     * @throws GuzzleException
+     * @throws InvalidConfigException
+     * @throws InvalidSignException
+     * @throws PayException
+     */
     public function cancel($order)
     {
         $this->payload['method'] = 'alipay.trade.cancel';
