@@ -309,7 +309,7 @@ class Pay extends AbstractPay implements PayInterface
     }
 
     /**
-     *  关闭
+     * 关闭
      * @param $order
      * @return array
      * @throws GuzzleException
