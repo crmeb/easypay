@@ -213,6 +213,8 @@ class Pay extends AbstractPay implements PayInterface
      * @param array $payload
      * @return array
      * @throws GuzzleException
+     * @throws InvalidConfigException
+     * @throws InvalidSignException
      * @throws PayException
      */
     protected function scanCreatePay(array $payload)
