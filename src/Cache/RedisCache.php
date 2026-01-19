@@ -93,7 +93,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function get(string $key, mixed $default = null): mixed
+    public function get($key, $default = null): mixed
     {
         $key = $this->getCacheKey($key);
         $value = $this->unserialize($this->redis->get($key));
@@ -111,7 +111,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool
+    public function set($key, $value, $ttl = null): bool
     {
         $key = $this->getCacheKey($key);
         $value = $this->serialize($value);
@@ -128,7 +128,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function delete(string $key): bool
+    public function delete($key): bool
     {
         return $this->redis->del($this->getCacheKey($key));
     }
@@ -155,7 +155,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function getMultiple(iterable $keys, mixed $default = null): iterable
+    public function getMultiple($keys, $default = null): iterable
     {
         $result = [];
 
@@ -174,7 +174,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function setMultiple(iterable $values, null|int|\DateInterval $ttl = null): bool
+    public function setMultiple($values, $ttl = null): bool
     {
         foreach ($values as $key => $val) {
             $result = $this->set($key, $val, $ttl);
@@ -194,7 +194,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function deleteMultiple(iterable $keys): bool
+    public function deleteMultiple($keys): bool
     {
         foreach ($keys as $key) {
             $result = $this->delete($key);
@@ -214,7 +214,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function has(string $key): bool
+    public function has($key): bool
     {
         return $this->redis->exists($this->getCacheKey($key));
     }
