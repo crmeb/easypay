@@ -93,7 +93,7 @@ class RedisCache implements CacheInterface
      * @email 136327134@qq.com
      * @date 2022/10/13
      */
-    public function get($key, $default = null): mixed
+    public function get($key, $default = null)
     {
         $key = $this->getCacheKey($key);
         $value = $this->unserialize($this->redis->get($key));
