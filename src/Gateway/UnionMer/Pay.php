@@ -92,7 +92,7 @@ class Pay extends AbstractPay implements PayInterface
                 }
                 $this->payload[$key] = $value;
             }
-
+            var_dump($this->payload);
             return $this->support->jsonSendRequest($url, $this->payload);
         }
     }
@@ -104,7 +104,33 @@ class Pay extends AbstractPay implements PayInterface
 
     public function refund(array $order)
     {
-        // TODO: Implement refund() method.
+        $params = [
+            'requestTimestamp' => date('Y-m-d H:i:s'),
+            'merOrderId'       => $order['merOrderId'] ?? '',
+            'instMid'          => 'YUEDANDEFAULT',
+            'mid'              => $this->payload['mid'],
+            'tid'              => $this->payload['tid'],
+            'refundAmount'     => $order['refundAmount'] ?? 0,
+            'refundDesc'       => $order['refundDesc'] ?? '用户退款',
+        ];
+
+        // 可选参数
+        if (isset($order['msgId'])) {
+            $params['msgId'] = $order['msgId'];
+        }
+        if (isset($order['srcReserve'])) {
+            $params['srcReserve'] = $order['srcReserve'];
+        }
+        if (isset($order['refundOrderId'])) {
+            $params['refundOrderId'] = $order['refundOrderId'];
+        }
+        if (isset($order['platformAmount'])) {
+            $params['platformAmount'] = $order['platformAmount'];
+        }
+        if (isset($order['subOrders'])) {
+            $params['subOrders'] = json_encode($order['subOrders'], JSON_UNESCAPED_UNICODE);
+        }
+        return $this->support->jsonSendRequest(PayUnionMerEnum::REFUND_ORDER_URL, $params);
     }
 
     public function cancel($order)
@@ -114,7 +140,17 @@ class Pay extends AbstractPay implements PayInterface
 
     public function close($order)
     {
-        // TODO: Implement close() method.
+        $params = [
+            'requestTimestamp'  => date('Y-m-d H:i:s'),
+            'merOrderId'        => $order['merOrderId'] ?? '',
+            'instMid'           => $order['instMid'] ?? '',
+            'mid'               => $this->payload['mid'],
+            'tid'               => $this->payload['tid'],
+        ];
+        if (isset($order['srcReserve'])) {
+            $params['srcReserve'] = $order['srcReserve'];
+        }
+        return $this->support->jsonSendRequest(PayUnionMerEnum::CLOSE_ORDER_URL, $params);
     }
 
     public function verify($content)
