@@ -52,4 +52,13 @@ class PayUnionMerEnum
             self::UNION_TYPE_WECHAT => self::MINI_PAY_URL,
         ],
     ];
+
+    // 业务类型
+    const INSTMID = [
+        'qrcode' => 'QRPAYDEFAULT',
+        'h5'     => 'H5DEFAULT',
+        'app'    => 'APPDEFAULT',
+        'mini'   => 'MINIDEFAULT',
+        'jsapi'  => 'YUEDANDEFAULT',
+    ];
 }
