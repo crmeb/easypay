@@ -21,24 +21,28 @@ interface PayInterface
 
     /**
      * Refund an order.
+     * @param array $order
+     * @param string $type
      * @return array
      */
-    public function refund(array $order);
+    public function refund(array $order, string $type);
 
     /**
      * Cancel an order.
      * @param string|array $order
-     *
+     * @param string $type
      * @return array
      */
-    public function cancel($order);
+    public function cancel($order, string $type);
 
     /**
      * Close an order.
-     * @param string|array $order
+     * @param string $orderId
+     * @param string $type
+     * @param string $srcReserve 附加数据，原样返回
      * @return array
      */
-    public function close($order);
+    public function close(string $orderId, string $type, string $srcReserve = '');
 
     /**
      * Verify a request.
