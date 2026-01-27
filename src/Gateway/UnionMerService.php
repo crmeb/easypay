@@ -206,6 +206,24 @@ class UnionMerService
      */
     public function refund(array $order = [], string $type)
     {
+        // $order = [
+        //     'orderId' => $order['orderId'] ?? '',                   // 必传，支付订单号
+        //     'refundAmount' => $order['refundAmount'] ?? '',         // 必传，退款金额（元）
+        //     'billDate' => $order['billDate'] ?? '',                 // $type 为 qrcode 时必传，退款日期（格式：YYYY-MM-DD）
+        //     'msgId' => $order['msgId'] ?? '',                       // 可选，消息ID，用于去重，原样返回
+        //     'srcReserve' => $order['srcReserve'] ?? '',             // 可选，附加数据，原样返回
+        //     'refundDesc' => $order['refundDesc'] ?? '',             // 可选，退款描述
+        //     'refundOrderId' => $order['refundOrderId'] ?? '',       // 可选，退款订单号，多次退款必传
+        //     'platformAmount' => $order['platformAmount'] ?? '',     // 可选，分账交易，平台金额（元）
+        //     'subOrders' => $order['subOrders'] ?? [],               // 可选，分账交易，子订单列表
+        // ];
+        // $order['subOrders'] = [
+        //     'mid' => $order['mid'] ?? '',                           // 分账交易必传，子订单商户号
+        //     'merOrderId' => $order['merOrderId'] ?? '',             // 分账交易必传，子订单商户订单号
+        //     'refundOrderId' => $order['refundOrderId'] ?? '',       // 分账交易必传，子订单退款订单号，多次退款必传
+        //     'totalAmount' => $order['totalAmount'] ?? '',           // 分账交易必传，子订单退款金额（元）
+        // ];
+
         $order['refundAmount'] = bcmul($order['refundAmount'], 100, 0);
         return $this->payGateway->refund($order, $type);
     }

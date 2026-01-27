@@ -119,7 +119,7 @@ class Pay extends AbstractPay implements PayInterface
         // 复制基础参数并移除不需要的字段
         $params = $this->payload;
         unset($params['return_url'], $params['notify_url']);
-        
+
         // 设置机构商户号
         $params['instMid'] = PayUnionMerEnum::INSTMID[$type] ?? '';
         // 设置退款金额
@@ -130,18 +130,21 @@ class Pay extends AbstractPay implements PayInterface
             // 退款请求地址
             $url = PayUnionMerEnum::NATIVE_PAY_REFUND_URL;
             // 二维码支付退款需要 billNo 和 billDate
-            $params['billNo'] = $order['refundOrderId'] ?? '';
+            $params['billNo'] = $order['orderId'] ?? '';
             $params['billDate'] = $order['billDate'] ?? '';
         } else {
             // 退款请求地址
             $url = PayUnionMerEnum::REFUND_ORDER_URL;
             // 非二维码支付退款只需要 merOrderId
-            $params['merOrderId'] = $order['refundOrderId'] ?? '';
+            $params['merOrderId'] = $order['orderId'] ?? '';
         }
 
         // 可选参数处理
         if (isset($order['msgId'])) {
             $params['msgId'] = $order['msgId'];
+        }
+        if (isset($order['refundDesc'])) {
+            $params['refundDesc'] = $order['refundDesc'];
         }
         if (isset($order['srcReserve'])) {
             $params['srcReserve'] = $order['srcReserve'];
@@ -176,18 +179,18 @@ class Pay extends AbstractPay implements PayInterface
         // 复制基础参数并移除不需要的字段
         $params = $this->payload;
         unset($params['return_url'], $params['notify_url']);
-        
+
         // 设置要关闭的订单号
         $params['merOrderId'] = $orderId;
-        
+
         // 根据支付类型设置机构商户号
         $params['instMid'] = PayUnionMerEnum::INSTMID[$type] ?? '';
-        
+
         // 如果提供了源保留字段，则加入参数
         if ($srcReserve) {
             $params['srcReserve'] = $srcReserve;
         }
-        
+
         // 发送关闭订单请求
         return $this->support->jsonSendRequest(PayUnionMerEnum::CLOSE_ORDER_URL, $params);
     }
