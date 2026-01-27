@@ -90,7 +90,7 @@ abstract class AbstractPay
                 'baseUrl' => $this->baseUri,
                 'url'     => $url,
                 'method'  => $method,
-                'options' => $options,
+                'options' => is_array($options) ? json_encode($options, JSON_UNESCAPED_UNICODE) : $options,
                 'result'  => $result
             ]);
         }
