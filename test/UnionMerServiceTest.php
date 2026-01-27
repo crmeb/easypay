@@ -25,14 +25,17 @@ class UnionMerServiceTest extends TestCase
         $facade->registerLogger(new \Crmeb\Easypay\Log\FileLogger(dirname(__DIR__) . '/logs'));
 
         $config = new UnionMerConfig([
-            'appId'  => '8a81c1bd831e4c9601862f7e03253998',
-            'appKey' => '259D48AE69D272289E2AC0E0DF72F4F8',
-            'mchId'  => '898610100008164',
-            'tid'    => 'KPJAGCEL'
+            'appId'  => '',
+            'appKey' => '',
+            'mchId'  => '',
+            'tid'    => ''
         ]);
 
-        $res = $facade->unionmer($config)->h5Pay('uni45457845122244545664446', '0.01', 'unionmer', '测试商品支付');
-
+//        $res = $facade->unionmer($config)->scan('uni4545784351222442252462', '0.01', '测试商品支付');
+//        $res = $facade->unionmer($config)->h5Pay('wxssdd2233445566', '0.01', '测试商品支付');
+//        $res = $facade->unionmer($config)->miniPay('345Xuni123345sssaaas45664446', '0.01', 'wx3b82801238ca1b57', 'o9qvr4ni8lBUJT8ySiSDxsidRuoE','测试商品支付');
+//        $res = $facade->unionmer($config)->jsapiPay('uni45457845122244545664446', '0.01', 'wxa815e4f2ef7bdb0b', 'oQsPz6Ese-XE63PRAeSjggUbtjlU','测试商品支付');
+        $res = $facade->unionmer($config)->close('wxssdd2233445566', 'h5');
         var_dump($res);
     }
 }
